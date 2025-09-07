@@ -2,7 +2,7 @@
 name = "newt"
 version = "0.0.1"
 compiler = "0.11.0"
-entrypoint = "lib.typ"
+entrypoint = "src/lib.typ"
 authors = ["kanagrou <https://github.com/kanagrou>"]
 license = "MIT"
 description = "newt is a fast and lightweight number typesetting package"
