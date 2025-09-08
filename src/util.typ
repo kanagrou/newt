@@ -54,6 +54,9 @@
 }
 
 #let strtok(s, cur, predicate) = {
+  if type(s) == str {
+    s = s.codepoints()
+  }
   let tok = ""
   while s.len() > cur and predicate(s.at(cur)) {
     tok += s.at(cur)

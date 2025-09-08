@@ -68,22 +68,30 @@
 #let strunit(value) = {
   assert-type(value, str)
   assert(value.len() > 0, message: "Invalid unit: " + value)
-  let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  let str-value = value
+  let value = value.codepoints()
+  let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".codepoints()
+  let extra = "αβγδεζηθικλμνξοπρσςτυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ".codepoints()
+  let digits = "1234567890".codepoints()
 
   let unit = (coef: none, ident: none, per: false, exp: none, desc: none)
   
   let i = 0
-  (unit.coef, i) = strtok(value, 0, c => c in "1234567890")
+  (unit.coef, i) = strtok(value, 0, c => c in digits)
   unit.coef = if unit.coef == "" { 1 } else { int(unit.coef) }
-  assert(unit.coef != 0, message: "Invalid unit: " + value)
+  assert(unit.coef != 0, message: "Invalid unit: " + str-value)
 
   // missing required ident
-  assert(value.len() > i, message: "Invalid unit: " + value)
+  assert(value.len() > i, message: "Invalid unit: " + str-value)
 
-  (unit.ident, i) = strtok(value, i, c => c in alpha)
-  assert(unit.ident.len() > 0, message: "Invalid unit: " + value)
+  (unit.ident, i) = strtok(value, i, c => c in alpha + extra)
+  assert(unit.ident.len() > 0, message: "Invalid unit: " + str-value)
   
-  let si-unit = SI.units.keys().filter(si-unit => unit.ident.ends-with(si-unit)).fold("", (acc, u) => if u.len() > acc.len() { u } else { acc })
+  let si-unit = SI.units.keys()
+    .filter(si-unit => unit.ident.ends-with(si-unit))
+    .fold("", (acc, u) => if u.len() > acc.len() { u } else { acc })
+  //assert(false, message: repr(unit.ident) + " || " + repr(SI.units.keys()))
+  //assert(false, message: repr(SI.units.keys().filter(si-unit => unit.ident.ends-with(si-unit))))
   let si-prefix = if si-unit != none {
     SI.prefixes.keys().find(p => p == unit.ident.trim(si-unit, at: end))
   }
@@ -100,17 +108,17 @@
 
   (unit.exp, i) = strtok(value, i, c => c in "1234567890")
   unit.exp = if unit.exp == "" { 1 } else { int(unit.exp) }
-  assert(unit.exp != 0, message: "Invalid unit: " + value)
+  assert(unit.exp != 0, message: "Invalid unit: " + str-value)
 
   if value.len() > i and value.at(i) == "(" {
     (unit.desc, i) = strtok(value, i + 1, c => c != ")")
-    assert(unit.desc != "", message: "Invalid unit: " + value)
-    assert(value.len() > i and value.at(i) == ")", message: "Invalid unit: " + value)
+    assert(unit.desc != "", message: "Invalid unit: " + str-value)
+    assert(value.len() > i and value.at(i) == ")", message: "Invalid unit: " + str-value)
     i += 1
   }
   
 
-  assert(value.len() == i, message: "Invalid unit: " + value)
+  assert(value.len() == i, message: "Invalid unit: " + str-value)
   unit
 }
 

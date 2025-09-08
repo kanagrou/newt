@@ -25,10 +25,17 @@
 
   let dectok(c) = c in "1234567890."
   let inttok(c) = c in "1234567890"
+  let sign(c) = if ch(c) == "+" { "+" } else if ch(c) == "-" { "-" } else { none }
 
-  if ch(tok) == "+" { result.explicit-sign = true; tok += 1 }
+  if ch(tok) == "+" { result.explicit-sign = true }
+  let sign = sign(tok)
+  if sign != none { tok += 1 }
+
   (result.r, tok) = strtok(value, tok, dectok)
   assert-number(result.r)
+  if sign == "-" { 
+    result.r = sign + result.r
+  }
 
   if eof(tok) { return result }
   
@@ -68,11 +75,15 @@
 
   if eof(tok) { return result }
 
-  assert(ch(tok) == "e", message: "Invalid number: " + value)
+
+  assert(ch(tok) == "e", message: "Invalid number: " + value + "|" + repr(ch(tok)))
   tok += 1
+  let sign = if ch(tok) == "-" { "-" } else { "+" }
+  if ch(tok) == "-" or ch(tok) == "+" { tok += 1 }
+
   (result.e, tok) = strtok(value, tok, inttok)
   assert(result.e.len() < 3)
-  result.e = int(result.e)
+  result.e = int(sign + result.e)
 
   
   assert(eof(tok), message: "Invalid number: " + value)

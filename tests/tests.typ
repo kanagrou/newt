@@ -89,7 +89,7 @@
 
 #lib.number("123.45+-0.5", compact: true, precision: none)
 
-#lib.number("123.45+6.2-7.1e3 kg m/s", precision: none)
+#lib.number("123.45+6.2-7.1e-3 kg m/s", precision: none)
 
 #lib.number("123,45(5) kg m", precision: none)
 
