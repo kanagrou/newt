@@ -65,7 +65,7 @@
 #assert.eq(lib.number("123.45+-.06", point: ","), math.equation([123,45] + [±] + [0,06]))
 #assert.eq(lib.number("123.45e3", precision: none, point: ","), math.equation([123,45] + [×] + math.attach(t: [3])[10]))
 #assert.eq(lib.number("123,45+-,06e3"), math.equation([(] + [123,45] + [±] + [0,06] + [)] + [×] + math.attach(t: [3])[10]))
-#assert.eq(lib.number("123.45 kg m/s2", u-opts: (product: ".", per-mode: "/")), math.equation([123] + [ ] + math.upright([kg] + [⋅] + [m] + [ ] + [/] + [ ] + math.attach(t: [2])[s])))
+#assert.eq(lib.number("123.45 kg m/s2", u-opts: (product: ".", per-mode: "/")), math.equation([123.45] + [ ] + math.upright([kg] + [⋅] + [m] + [ ] + [/] + [ ] + math.attach(t: [2])[s])))
 //#assert.eq(lib.number("123.45e3+-.06 kg m / s2"), math.equation([(] + [(] + [123,45] + [±] + [0,06] + [)] + [×] + math.attach(t: [3])[10] + [)] + [ ] + math.upright([kg] + [⋅] + [m] + [ /] + [ ] + math.attach(t: [2], b: none)[s])))
 // #assert.eq(lib.number("123.45", precision: 3), lib.number(123))
 // #assert.eq(lib.number(".45"), lib.number(.4501))

@@ -102,29 +102,32 @@
   }
 
   import "richnum.typ": richnum
-  import "strunit.typ": SI
   import "strnum.typ"
 
   if pm == 0 or (type(pm) == str and pm.trim("0") in ("", ".")) { pm = none }
 
   if type(value) == str {
     let richnum = richnum(value)
-    value = richnum.r
+    value = strnum.strnum(richnum.r)
     if e == none { e = richnum.e }
     if pm == none { pm = richnum.pm }
     if u == none { u = richnum.u }
     if point == auto { point = richnum.point }
     if explicit-sign == false { explicit-sign = richnum.explicit-sign }
     if fixed == auto { fixed = true }
+    if digits == auto and precision == auto {
+      digits = if value.decimal == none { 0 } else { value.decimal.len() }
+    }
     if compact == false { compact = richnum.compact }
     if type(pm) == dictionary { is-asymetric-uncertainty = true }
+  } else {
+    value = strnum.strnum(value)
   }
 
   if point == auto { point = "," }
   if explicit-sign == auto { explicit-sign = false }
   if fixed == auto { fixed = false }
 
-  value = strnum.strnum(value)
   if is-asymetric-uncertainty {
       pm.high = strnum.strnum(pm.high)
       pm.low = strnum.strnum(pm.low)
