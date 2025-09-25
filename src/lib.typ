@@ -78,6 +78,7 @@
   explicit-sign: false,
   compact: false,
   show-pm: true,
+  two-digit-rule-threshold: 0,
 
   u-opts: (per-mode: "^", product: "."),
 
@@ -91,6 +92,7 @@
   assert-type(fixed, bool, required: false)
   assert-type(point, type(auto), str)
   assert-type(explicit-sign, bool)
+  assert-type(two-digit-rule-threshold, int)
 
   let is-asymetric-uncertainty = type(pm) == dictionary
   assert-enum(point, auto, ".", ",")
@@ -144,7 +146,12 @@
 
   if e != none and e != 0 and fixed == false {
     value = strnum.shift(value, e)
-    if pm != none { pm = strnum.shift(pm, e) }
+    if is-asymetric-uncertainty {
+      pm.high = strnum.shift(pm.high, e)
+      pm.low = strnum.shift(pm.low, e)
+    } else if pm != none {
+      pm = strnum.shift(pm, e)
+    }
   }
 
   if precision == auto and pm == none { precision = 3 }
@@ -152,19 +159,32 @@
   let round-to = if digits != auto {
     -digits + 1
   } else if precision == auto and is-asymetric-uncertainty {
-      calc.max(strnum.first-sigfig(pm.high), strnum.first-sigfig(pm.low))
+    let first-sigfig = calc.max(strnum.first-sigfig(pm.high), strnum.first-sigfig(pm.low))
+    if strnum.at-sigfig(pm.low, first-sigfig) <= two-digit-rule-threshold and strnum.at-sigfig(pm.high, first-sigfig) <= two-digit-rule-threshold {
+      first-sigfig - 1
+    } else {
+      first-sigfig
+    }
   } else if precision == auto and pm != none {
-    strnum.first-sigfig(pm)
+    let first-sigfig = strnum.first-sigfig(pm)
+    if strnum.at-sigfig(pm, first-sigfig) <= two-digit-rule-threshold {
+      first-sigfig - 1
+    } else {
+      first-sigfig
+    }
   } else if precision != none and is-asymetric-uncertainty {
-      calc.max(strnum.first-sigfig(pm.high, pm.low)) - precision + 1
+    calc.max(
+      strnum.first-sigfig(pm.high),
+      strnum.first-sigfig(pm.low)
+    ) - precision + 1
   } else if precision != none and pm != none {
-      strnum.first-sigfig(pm) - precision + 1
+    strnum.first-sigfig(pm) - precision + 1
   } else if precision != none {
     strnum.first-sigfig(value) - precision + 1
   } else if pm == none {
     strnum.last-digit(value)
   } else if is-asymetric-uncertainty {
-      calc.min(strnum.last-digit(value), calc.min(strnum.last-digit(pm.high), strnum.last-digit(pm.low)))
+    calc.min(strnum.last-digit(value), calc.min(strnum.last-digit(pm.high), strnum.last-digit(pm.low)))
   } else {
     calc.min(strnum.last-digit(value), strnum.last-digit(pm))
   }

@@ -91,8 +91,15 @@
 
 #lib.number("123.45+6.2-7.1e-3 kg m/s", precision: none)
 
+#lib.number(123.45, pm: (high: 6.2, low: 7.1), e:-3)
+
 #lib.number("123,45(5) kg m", precision: none)
 
 #lib.number(1044, pm: 86, e: 2, fixed: false)
 
 #lib.number(0.0000001249, e:auto, precision: 3, u: "cm2")
+
+#lib.number(0.01, pm: 0.0024, e: auto)
+
+#lib.number(0.01, pm: 0.0054, e: auto)
+

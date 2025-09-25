@@ -4,7 +4,7 @@
   assert-number(value)
 
   let (strint, strdec, ..) = str(value)
-    .trim(regex("[+-]"), at: start)
+    .trim(regex("[+−-]"), at: start)
     .split(".") + (none,)
 
   let sign = if type(value) in (int, float, decimal) and value < 0 {
@@ -28,6 +28,12 @@
   if first-sigfig != none { -first-sigfig }
 } else {
   strnum.integer.len()
+}
+
+#let at-sigfig(strnum, sigfig) = if sigfig > 0 {
+  int(strnum.integer.at(strnum.integer.len() - sigfig))
+} else {
+  int(strnum.decimal.at(-sigfig))
 }
 
 #let last-digit(strnum) = if strnum.decimal == none {
@@ -138,7 +144,10 @@
 }
 
 #let str(strnum, point: ",", explicit-sign: false) = (
-  if explicit-sign or strnum.sign == "-" { strnum.sign }
+  if explicit-sign or strnum.sign == "-" { 
+    if strnum.sign == "-" { math.minus }
+    else { math.plus }
+  }
   + if strnum.integer.len() > 4 { group-digits(strnum.integer) }
     else { strnum.integer }
   + if strnum.decimal != none { point + group-digits(strnum.decimal, by: 5, at: start) }
