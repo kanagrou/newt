@@ -71,7 +71,8 @@
   let str-value = value
   let value = value.codepoints()
   let alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".codepoints()
-  let extra = "αβγδεζηθικλμνξοπρσςτυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ".codepoints()
+  let greek = "αβγδεζηθικλμνξοπρσςτυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ".codepoints()
+  let extra = "%$".codepoints()
   let digits = "1234567890".codepoints()
 
   let unit = (coef: none, ident: none, per: false, exp: none, desc: none)
@@ -84,7 +85,7 @@
   // missing required ident
   assert(value.len() > i, message: "Invalid unit: " + str-value)
 
-  (unit.ident, i) = strtok(value, i, c => c in alpha + extra)
+  (unit.ident, i) = strtok(value, i, c => c in alpha + greek + extra)
   assert(unit.ident.len() > 0, message: "Invalid unit: " + str-value)
   
   let si-unit = SI.units.keys()
