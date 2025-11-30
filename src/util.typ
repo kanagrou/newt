@@ -40,7 +40,7 @@
     reached-end = place <= -1
   }
 
-  if pad { carried-zeros += (value.len() - place - 1) * "0" } 
+  if pad { carried-zeros = (value.len() - place - 1) * "0" } 
 
   if reached-end {
     if type(carry) == function {
