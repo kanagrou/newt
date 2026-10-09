@@ -12,7 +12,7 @@ Newt is a [Typst](https://typst.app/) package for typesetting numerical data.
 ### Numbers
 Numbers are to be typeset with the `number` element. The `number` element follows the definition :
 ```typ
-#let number(
+#number(
   value,
   e: none,
   pm: none,
@@ -42,7 +42,7 @@ Numbers are to be typeset with the `number` element. The `number` element follow
 # Units
 Units are to be typeset with the `unit` element. The `unit` element follows the definition :
 ```typ
-#let unit(
+#unit(
   value,
   per-mode: "^",
   product: " "
@@ -50,4 +50,4 @@ Units are to be typeset with the `unit` element. The `unit` element follows the 
 ```
 `per-mode` is the mode at which units with negative powers will be displayed. It shall be one of `"^"`, which is the *power* mode; `"/"`, which is the *fraction* mode; and `"-"`, which is the *over* mode.
 
-`product` is the seperator displayed between the units. It shall be one of `" "`, which displays a thin space; and `"."`, which displays a dot.
+`product` is the separator displayed between the units. It shall be one of `" "`, which displays a thin space; and `"."`, which displays a dot.

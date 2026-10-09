@@ -2,7 +2,6 @@ name: Package, release, publish
 on:
   push:
     tags: [ v* ]
-  workflow_dispatch:
 
 env:
   # the forge (host) at which the registry lies
@@ -86,6 +85,7 @@ jobs:
       - name: Add artifacts to release
         uses: ncipollo/release-action@v1
         with:
+          tag: ${{ github.ref_name }}
           artifacts: ${{ needs.build.outputs.pkg-id }}/*
 
   publish:
