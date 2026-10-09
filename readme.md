@@ -1,11 +1,13 @@
 # Newt
-Newt is a [Typst](https://typst.app/) package for typesetting numerical data that follows standards.
+Newt is a [Typst](https://typst.app/) package for typesetting numerical data.
+
+```typ
+#import "@preview/newt:0.1.0": number as n
+```
 
 ## Features
 - Numbers
 - Units
-- Angles
-
 
 ### Numbers
 Numbers are to be typeset with the `number` element. The `number` element follows the definition :
@@ -31,7 +33,7 @@ Numbers are to be typeset with the `number` element. The `number` element follow
 
 `pm` is the uncertainty of the number; it may be any number-like or a `dictionary` comprising of `high` and `low` values, for its upper and lower bound respectively. If `compact` is set to `true` and the uncertainty is symmetric, it will be shown in compact form, for example : `number("5.25(5)")` or `number(5.25, pm: 0.05, compact: true)` will both yield $5.25(5)$.
 
-`u` is the unit part of the number. See Units. Its options are given in `u-opts`.
+`u` is the unit part of the number (see Units). Its options are given in `u-opts`.
 
 `precision` describes the number of significant figures the displayed number shall have. `digits` describes the number of digits the display number shall have. Both can be defined at the same time - in other words, a number may have three significant figures while having its digits fixed at two decimal places. They are both `auto` by default, which means digits will follow the precision and the precision will be infinite (i.e. `none`) for `value`s given as string and `3` for values given as other types.
 

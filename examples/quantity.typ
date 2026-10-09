@@ -1,4 +1,4 @@
-#import "../lib.typ": n
+#import "@local/newt:0.1.0": number as n
 #let qty(number, unit, ..rest) = n(number, u: unit, ..rest)
 
 #set page(width: auto, height: auto)

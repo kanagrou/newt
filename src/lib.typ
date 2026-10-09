@@ -81,7 +81,6 @@
   two-digit-rule-threshold: 0,
 
   u-opts: (per-mode: "^", product: "."),
-
 ) = {
   import "util.typ": assert-type, assert-enum
   assert-type(e, int, required: false)

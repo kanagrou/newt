@@ -1,8 +1,8 @@
-#import "../src/util.typ"
-#import "../src/strnum.typ"
-#import "../src/richnum.typ"
-#import "../src/strunit.typ"
-#import "../src/lib.typ"
+#import "/src/util.typ"
+#import "/src/strnum.typ"
+#import "/src/richnum.typ"
+#import "/src/strunit.typ"
+#import "/src/lib.typ"
 
 = tests
 
